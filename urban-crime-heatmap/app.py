@@ -8,7 +8,7 @@ st.set_page_config(
     page_title="CrimeScope | Urban Crime Intelligence",
     page_icon="🔴",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="expanded",  # ← always starts open
 )
 
 from utils.theme import GLOBAL_CSS
