@@ -73,11 +73,32 @@ def render(filters):
 
     st.markdown("---")
 
-    # ── Pivot table ───────────────────────────────────────────────────────────
+    # ── Pivot table (rendered as Plotly heatmap — no matplotlib needed) ───────
     st.markdown('<div class="cs-section">PIVOT TABLE — AVG RATE BY COUNTRY × CRIME TYPE</div>', unsafe_allow_html=True)
     pivot = fdf.groupby(["country","crime_type"])["rate_per_100k"].mean().unstack(fill_value=0).round(1)
-    st.dataframe(pivot.style.background_gradient(cmap="YlOrRd", axis=None),
-                 use_container_width=True, height=300)
+    fig_pivot = go.Figure(go.Heatmap(
+        z=pivot.values,
+        x=pivot.columns.tolist(),
+        y=pivot.index.tolist(),
+        colorscale=[[0, BG3], [0.35, "#003355"], [0.7, CYAN2], [1, CYAN]],
+        text=pivot.values,
+        texttemplate="%{text:.1f}",
+        textfont=dict(size=9, color=TEXT),
+        showscale=True,
+        colorbar=dict(thickness=10, len=0.9,
+                      tickfont=dict(color=TDIM, size=8),
+                      bgcolor=BG2, bordercolor=BORD2),
+        hovertemplate="<b>%{y}</b> — %{x}<br>Rate: %{z:.1f} / 100k<extra></extra>",
+    ))
+    fig_pivot.update_layout(
+        paper_bgcolor=BG2, plot_bgcolor=BG3,
+        font=dict(family="IBM Plex Mono, monospace", color=TEXT, size=9),
+        xaxis=dict(color=TEXT, side="bottom"),
+        yaxis=dict(color=TEXT, autorange="reversed"),
+        margin=dict(l=10, r=10, t=10, b=10),
+        height=420,
+    )
+    st.plotly_chart(fig_pivot, use_container_width=True)
 
     st.markdown("---")
 
