@@ -289,9 +289,15 @@ hr { border-color: var(--border2) !important; }
   text-transform: uppercase;
 }
 
-/* ── HIDE STREAMLIT CHROME ────────────────────────────────────── */
+/* ── HIDE STREAMLIT CHROME ────────────────────────────────────────── */
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding-top: 1rem !important; max-width: 100% !important; }
+
+/* ── HIDE SIDEBAR COLLAPSE BUTTON (prevents sidebar from disappearing) ── */
+[data-testid="collapsedControl"],
+button[data-testid="baseButton-headerNoPadding"],
+[data-testid="stSidebarCollapseButton"] {
+    display: none !important;
+}
 
 /* ── SCROLLBAR ────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
