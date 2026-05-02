@@ -32,10 +32,13 @@ html, body, [data-testid="stAppViewContainer"],
 }
 
 /* ── SIDEBAR ──────────────────────────────────────────────────── */
-[data-testid="stSidebar"] {
-  background-color: var(--bg2) !important;
-  border-right: 1px solid var(--border2) !important;
-}
+[data-testid="collapsedControl"],          /* older versions */
+[data-testid="stSidebarCollapseButton"],   /* newer versions */
+[data-testid="stSidebarCollapsedControl"], /* latest versions */
+button[aria-label="Close sidebar"],        /* aria fallback */
+button[aria-label="Collapse sidebar"],     /* aria fallback */
+.st-emotion-cache-zq5wmm,                 /* compiled class names */
+... { display: none !important; }
 [data-testid="stSidebar"] * { color: var(--text) !important; }
 [data-testid="stSidebar"] h1,
 [data-testid="stSidebar"] h2,
