@@ -295,11 +295,17 @@ hr { border-color: var(--border2) !important; }
 /* ── HIDE STREAMLIT CHROME ────────────────────────────────────────── */
 #MainMenu, footer, header { visibility: hidden; }
 
-/* ── HIDE SIDEBAR COLLAPSE BUTTON (prevents sidebar from disappearing) ── */
+/* ── HIDE SIDEBAR COLLAPSE BUTTON ── */
 [data-testid="collapsedControl"],
 button[data-testid="baseButton-headerNoPadding"],
 [data-testid="stSidebarCollapseButton"] {
     display: none !important;
+}
+
+/* ── STYLE SIDEBAR ── */
+[data-testid="stSidebar"] {
+    background-color: var(--bg2) !important;
+    border-right: 1px solid var(--border2) !important;
 }
 
 /* ── SCROLLBAR ────────────────────────────────────────────────── */
