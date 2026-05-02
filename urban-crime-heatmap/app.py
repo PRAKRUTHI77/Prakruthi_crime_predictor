@@ -8,31 +8,11 @@ st.set_page_config(
     page_title="CrimeScope | Urban Crime Intelligence",
     page_icon="🔴",
     layout="wide",
-    initial_sidebar_state="expanded",  # ← always starts open
+    initial_sidebar_state="expanded",
 )
 
 from utils.theme import GLOBAL_CSS
 st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
-
-# ── Sidebar toggle always visible fix ─────────────────────────────────────────
-st.markdown("""
-<style>
-[data-testid="collapsedControl"] {
-    display:       flex !important;
-    visibility:    visible !important;
-    opacity:       1 !important;
-    color:         #00d4ff !important;
-    background:    #0d1424 !important;
-    border:        1px solid #00d4ff !important;
-    border-radius: 0 6px 6px 0 !important;
-    z-index:       9999 !important;
-}
-[data-testid="collapsedControl"]:hover {
-    background:  rgba(0,212,255,0.15) !important;
-    box-shadow:  0 0 10px #00d4ff55 !important;
-}
-</style>
-""", unsafe_allow_html=True)
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -96,9 +76,9 @@ filters = dict(region=region, country=country_name,
                year_range=year_range)
 
 # ── Route ──────────────────────────────────────────────────────────────────────
-if   "Heatmap"   in page: from pages.heatmap   import render; render(filters)
-elif "Analytics" in page: from pages.analytics import render; render(filters)
-elif "Predictor" in page: from pages.predictor import render; render(filters)
-elif "Anomaly"   in page: from pages.anomaly   import render; render(filters)
-elif "Explorer"  in page: from pages.explorer  import render; render(filters)
-else:                      from pages.about    import render; render()
+if   "Heatmap"    in page: from pages.heatmap    import render; render(filters)
+elif "Analytics"  in page: from pages.analytics  import render; render(filters)
+elif "Predictor"  in page: from pages.predictor  import render; render(filters)
+elif "Anomaly"    in page: from pages.anomaly     import render; render(filters)
+elif "Explorer"   in page: from pages.explorer    import render; render(filters)
+else:                       from pages.about      import render; render()
