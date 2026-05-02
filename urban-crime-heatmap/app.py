@@ -14,24 +14,87 @@ st.set_page_config(
 from utils.theme import GLOBAL_CSS
 st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 
-# ── Sidebar toggle always visible fix ─────────────────────────────────────────
+# ── Persistent sidebar toggle button (JS injection) ───────────────────────────
 st.markdown("""
 <style>
+/* Always show the native collapse arrow */
 [data-testid="collapsedControl"] {
     display:       flex !important;
     visibility:    visible !important;
     opacity:       1 !important;
-    color:         #00d4ff !important;
-    background:    #0d1424 !important;
-    border:        1px solid #00d4ff !important;
-    border-radius: 0 6px 6px 0 !important;
     z-index:       9999 !important;
 }
-[data-testid="collapsedControl"]:hover {
-    background:  rgba(0,212,255,0.15) !important;
-    box-shadow:  0 0 10px #00d4ff55 !important;
+
+/* Floating custom toggle button */
+#sidebar-toggle-btn {
+    position:      fixed;
+    top:           50%;
+    left:          0px;
+    transform:     translateY(-50%);
+    z-index:       9999;
+    background:    #0d1424;
+    color:         #00d4ff;
+    border:        1px solid #00d4ff;
+    border-left:   none;
+    border-radius: 0 6px 6px 0;
+    padding:       12px 6px;
+    cursor:        pointer;
+    font-size:     16px;
+    line-height:   1;
+    transition:    background 0.2s, box-shadow 0.2s;
+}
+#sidebar-toggle-btn:hover {
+    background:  rgba(0,212,255,0.15);
+    box-shadow:  0 0 12px #00d4ff66;
 }
 </style>
+
+<button id="sidebar-toggle-btn" title="Toggle Sidebar">&#9776;</button>
+
+<script>
+(function() {
+    function toggleSidebar() {
+        // Try all known Streamlit sidebar button selectors across versions
+        var selectors = [
+            '[data-testid="collapsedControl"] button',
+            '[data-testid="collapsedControl"]',
+            'button[kind="header"]',
+            '[data-testid="baseButton-header"]',
+            'section[data-testid="stSidebar"] button',
+        ];
+        for (var i = 0; i < selectors.length; i++) {
+            var btn = window.parent.document.querySelector(selectors[i]);
+            if (btn) {
+                btn.click();
+                return;
+            }
+        }
+        // Fallback: toggle sidebar width directly
+        var sidebar = window.parent.document.querySelector('[data-testid="stSidebar"]');
+        if (sidebar) {
+            var current = sidebar.style.width;
+            sidebar.style.width = (current === '0px' || current === '') ? '21rem' : '0px';
+            sidebar.style.overflow = 'hidden';
+        }
+    }
+
+    // Wait for DOM then attach
+    function init() {
+        var btn = document.getElementById('sidebar-toggle-btn');
+        if (btn) {
+            btn.addEventListener('click', toggleSidebar);
+        } else {
+            setTimeout(init, 300);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>
 """, unsafe_allow_html=True)
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
