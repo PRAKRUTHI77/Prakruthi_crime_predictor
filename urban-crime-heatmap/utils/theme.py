@@ -295,18 +295,19 @@ hr { border-color: var(--border2) !important; }
 /* ── HIDE STREAMLIT CHROME ────────────────────────────────────────── */
 #MainMenu, footer, header { visibility: hidden; }
 
-/* ── HIDE SIDEBAR COLLAPSE BUTTON ── */
-[data-testid="collapsedControl"],
-button[data-testid="baseButton-headerNoPadding"],
-[data-testid="stSidebarCollapseButton"] {
-    display: none !important;
+/* KEEP this */
+[data-testid="stSidebar"] {
+  background-color: var(--bg2) !important;
+  border-right: 1px solid var(--border2) !important;
 }
 
-/* ── STYLE SIDEBAR ── */
-[data-testid="stSidebar"] {
-    background-color: var(--bg2) !important;
-    border-right: 1px solid var(--border2) !important;
+/* ADD this fix */
+[data-testid="stSidebar"][aria-expanded="false"] {
+  transform: translateX(0%) !important;
+  visibility: visible !important;
 }
+
+/* REMOVE old display:none rule completely */
 
 /* ── SCROLLBAR ────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
