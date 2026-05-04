@@ -32,19 +32,51 @@ html, body, [data-testid="stAppViewContainer"],
 }
 
 /* ── SIDEBAR ──────────────────────────────────────────────────── */
-[data-testid="collapsedControl"],          /* older versions */
-[data-testid="stSidebarCollapseButton"],   /* newer versions */
-[data-testid="stSidebarCollapsedControl"], /* latest versions */
-button[aria-label="Close sidebar"],        /* aria fallback */
-button[aria-label="Collapse sidebar"],     /* aria fallback */
-.st-emotion-cache-zq5wmm,                 /* compiled class names */
-... { display: none !important; }
+[data-testid="stSidebar"] {
+  background-color: var(--bg2) !important;
+  border-right: 1px solid var(--border2) !important;
+}
 [data-testid="stSidebar"] * { color: var(--text) !important; }
 [data-testid="stSidebar"] h1,
 [data-testid="stSidebar"] h2,
 [data-testid="stSidebar"] h3 {
   font-family: 'Orbitron', monospace !important;
   color: var(--cyan) !important;
+}
+
+/* ── SIDEBAR COLLAPSE BUTTON — ALWAYS VISIBLE ON DESKTOP ──────── */
+[data-testid="collapsedControl"] {
+  display:          flex !important;
+  visibility:       visible !important;
+  opacity:          1 !important;
+  position:         fixed !important;
+  top:              50% !important;
+  left:             0px !important;
+  transform:        translateY(-50%) !important;
+  z-index:          999999 !important;
+  background:       #0d1424 !important;
+  border:           1px solid #00d4ff !important;
+  border-left:      none !important;
+  border-radius:    0 8px 8px 0 !important;
+  width:            28px !important;
+  height:           52px !important;
+  min-width:        28px !important;
+  min-height:       52px !important;
+  cursor:           pointer !important;
+  box-shadow:       2px 0 12px rgba(0,212,255,0.3) !important;
+}
+[data-testid="collapsedControl"]:hover {
+  background:  rgba(0,212,255,0.2) !important;
+  box-shadow:  2px 0 20px rgba(0,212,255,0.6) !important;
+}
+[data-testid="collapsedControl"] svg {
+  color: #00d4ff !important;
+  fill:  #00d4ff !important;
+}
+/* Hide the toggle button only when sidebar is open (avoid duplication) */
+[data-testid="stSidebar"][aria-expanded="true"] ~ * [data-testid="collapsedControl"],
+[data-testid="stSidebarCollapseButton"] {
+  display: none !important;
 }
 
 /* ── INPUTS ───────────────────────────────────────────────────── */
@@ -292,22 +324,9 @@ hr { border-color: var(--border2) !important; }
   text-transform: uppercase;
 }
 
-/* ── HIDE STREAMLIT CHROME ────────────────────────────────────────── */
+/* ── HIDE STREAMLIT CHROME ────────────────────────────────────── */
 #MainMenu, footer, header { visibility: hidden; }
-
-/* KEEP this */
-[data-testid="stSidebar"] {
-  background-color: var(--bg2) !important;
-  border-right: 1px solid var(--border2) !important;
-}
-
-/* ADD this fix */
-[data-testid="stSidebar"][aria-expanded="false"] {
-  transform: translateX(0%) !important;
-  visibility: visible !important;
-}
-
-/* REMOVE old display:none rule completely */
+.block-container { padding-top: 1rem !important; max-width: 100% !important; }
 
 /* ── SCROLLBAR ────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
